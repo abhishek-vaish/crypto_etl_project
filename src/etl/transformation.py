@@ -27,7 +27,6 @@ class Transformation:
         return self
 
     def split_substring(self, column, old_string_regex):
-        print(self.df[column].str.split(old_string_regex, n=0, regex=True).str[1])
         self.df[column] = \
             self.df[column].str.split(old_string_regex, n=0, regex=True).str[1]
         return self
