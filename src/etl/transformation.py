@@ -26,8 +26,10 @@ class Transformation:
         self.df.drop_duplicates(inplace=True)
         return self
 
-    def remove_substring(self, column, old_string_regex, new_string):
-        self.df[column] = self.df[column].replace(old_string_regex, new_string)
+    def split_substring(self, column, old_string_regex):
+        print(self.df[column].str.split(old_string_regex, n=0, regex=True).str[1])
+        self.df[column] = \
+            self.df[column].str.split(old_string_regex, n=0, regex=True).str[1]
         return self
 
     def cast(self, column, dt):

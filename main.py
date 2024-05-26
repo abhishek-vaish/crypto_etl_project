@@ -22,9 +22,9 @@ if __name__ == '__main__':
         ARCHIVE_PATH.mkdir(exist_ok=True)
 
     # scrap data from the target link
-    coinmarketcap_obj = CoinMarketCap()
-    coinmarketcap_lst = coinmarketcap_obj.scrap_data()
-    coinmarketcap_obj.convert_dict_to_csv(coinmarketcap_lst, ETL_PATH)
+    # coinmarketcap_obj = CoinMarketCap()
+    # coinmarketcap_lst = coinmarketcap_obj.scrap_data()
+    # coinmarketcap_obj.convert_dict_to_csv(coinmarketcap_lst, ETL_PATH)
 
     # process files
     for file in ETL_PATH.glob("coinmarketcap_*.csv"):
@@ -39,7 +39,7 @@ if __name__ == '__main__':
                 .read_file() \
                 .remove_null() \
                 .remove_duplicate() \
-                .remove_substring("market_cap", "\\$[1-9]+\\.[1-9]+[A-Z]", "") \
+                .split_substring("market_cap", "\\$[0-9]+\\.[0-9]+[A-Z]") \
                 .cast("rank", int) \
                 .generate_dict()
 
