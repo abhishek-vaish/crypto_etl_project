@@ -39,7 +39,7 @@ if __name__ == '__main__':
                 .read_file() \
                 .remove_null() \
                 .remove_duplicate() \
-                .split_substring("market_cap", "\\$[0-9]+\\.[0-9]+[A-Z]") \
+                .split_substring("market_cap", "\\$[0-9]+\\.?[0-9]*[A-Z]") \
                 .cast("rank", int) \
                 .generate_dict()
 
