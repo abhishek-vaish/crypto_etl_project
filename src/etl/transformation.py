@@ -1,21 +1,11 @@
-import pandas as pd
-
-
 class Transformation:
-    def __init__(self, file_path):
-        self.df = None
+    def __init__(self, file_path, df):
+        self.df = df
         self.v_file_format = ""
         self.file_path = file_path
 
     def file_format(self, file_format):
         self.v_file_format = file_format
-        return self
-
-    def read_file(self):
-        if self.v_file_format == 'csv':
-            self.df = pd.read_csv(self.file_path)
-        else:
-            raise ValueError("File Format not found!")
         return self
 
     def remove_null(self):

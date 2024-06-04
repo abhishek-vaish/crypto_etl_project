@@ -7,8 +7,8 @@ from sqlalchemy import Column, Integer, String, DateTime
 Base = declarative_base()
 
 
-class BaseCoinMarketCap(Base):
-    __tablename__ = "CoinMarketCap"
+class BaseCoinRanking(Base):
+    __tablename__ = "CoinRanking"
     __table_args__ = {
         "schema": "raw"
     }
