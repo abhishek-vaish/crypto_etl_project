@@ -11,6 +11,7 @@ lxml = "*"
 sqlalchemy = "*"
 python-dotenv = "*"
 pyodbc = "*"
+firebase-admin = "*"
 
 [dev-packages]
 
