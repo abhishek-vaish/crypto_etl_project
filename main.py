@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from src.scrapping.scrap_cryptoranking import CryptoRanking
 from src.etl.extract_coinranking import ExtractCoinRanking
 from src.etl.load import Load
-from src.table.CoinRanking import BaseCoinMarketCap
+from src.table.CoinRanking import BaseCoinRanking
 
 
 if __name__ == '__main__':
@@ -37,5 +37,5 @@ if __name__ == '__main__':
 
     Load(data_list, SERVER_NAME) \
         .connect_engine() \
-        .insert(BaseCoinMarketCap) \
+        .insert(BaseCoinRanking) \
         .close()
