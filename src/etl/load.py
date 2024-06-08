@@ -3,6 +3,7 @@ from sqlalchemy import text
 from urllib import parse
 
 from src.utilities.utility import archive_file
+from src.utilities.logger import logger
 
 
 class Load:
@@ -25,20 +26,25 @@ class Load:
         engine = create_engine(url=snowflake_uri, echo=True)
         try:
             self.cursor = engine.connect()
+            logger.info("Snowflake connected successfully")
             return self
         except ConnectionError:
-            raise ConnectionError("Unable to connect with database")
+            logger.error("Unable to connect with database")
 
     def put_file(self):
-        for file_path in self.etl_path.glob("cryptoranking_*.json"):
-            file_path = str(file_path).replace("\\", "/")
-            query = text(f"PUT file://{file_path} {self.internal_stage}")
-            print(query)
-            self.cursor.execute(query)
-            archive_file(file_path, self.archive_path)
+        file_lst = self.etl_path.glob("cryptoranking_*.json")
+        if file_lst is not None:
+            for file_path in file_lst:
+                file_path = str(file_path).replace("\\", "/")
+                query = text(f"PUT file://{file_path} {self.internal_stage}")
+                self.cursor.execute(query)
+                logger.info("Archiving processed file")
+                archive_file(file_path, self.archive_path)
+                logger.info("File successfully archived")
         return self
 
     def close(self):
+        logger.info("Closing Snowflake connection")
         self.cursor.close()
 
 

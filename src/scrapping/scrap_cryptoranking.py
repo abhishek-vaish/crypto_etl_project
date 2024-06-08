@@ -3,6 +3,8 @@ from datetime import datetime
 from pathlib import Path
 from urllib import parse
 
+from src.utilities.logger import logger
+
 
 class CryptoRanking:
     def __init__(self, api_key, uri, limit):
@@ -30,7 +32,7 @@ class CryptoRanking:
             with open(file_path, 'w', encoding="utf-8") as file:
                 file.write(self._response)
         else:
-            raise FileExistsError(f"{filename} already exists.")
+            logger.error(f"{filename} already exists.")
         return self
 
 
