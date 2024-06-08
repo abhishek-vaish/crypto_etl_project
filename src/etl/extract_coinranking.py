@@ -34,27 +34,28 @@ class ExtractCoinRanking:
         return self
 
     def get_dictonary(self):
-        for data in self.dataframe["data"]:
-            self.data_list.append({
-                "RANK": data["rank"],
-                "NAME": data["name"],
-                "SYMBOL": data["symbol"],
-                "TYPE": data["type"],
-                "CATEGORY": data.setdefault("category", None),
-                "IMAGE": data["images"]["60x60"],
-                "MARKETCAP": data["values"]["USD"]["marketCap"],
-                "PRICE": data["values"]["USD"]["price"],
-                "CIRCULATINGSUPPLY": data["circulatingSupply"],
-                "TOTALSUPPLY": data.setdefault("totalSupply", None),
-                "MAXSUPPLY": data.setdefault("maxSupply", None),
-                "VOLUME": data["values"]["USD"]["volume24h"],
-                "PERCENTCHANGESIXMIN": data["values"]["USD"]["percentChange6m"],
-                "PERCENTCHANGEWEEK": data["values"]["USD"]["percentChange7d"],
-                "PERCENTCHANGEDAY": data["values"]["USD"]["percentChange24h"],
-                "PERCENTCHANGEMONTH": data["values"]["USD"]["percentChange30d"],
-                "DAYHIGH": data["values"]["USD"]["high24h"],
-                "DAYLOW": data["values"]["USD"]["low24h"],
-                "LASTUPDATED": data["lastUpdated"],
-                "FILEDATE": self.file_date
-            })
+        if self.dataframe is not None:
+            for data in self.dataframe["data"]:
+                self.data_list.append({
+                    "RANK": data["rank"],
+                    "NAME": data["name"],
+                    "SYMBOL": data["symbol"],
+                    "TYPE": data["type"],
+                    "CATEGORY": data.setdefault("category", None),
+                    "IMAGE": data["images"]["60x60"],
+                    "MARKETCAP": data["values"]["USD"]["marketCap"],
+                    "PRICE": data["values"]["USD"]["price"],
+                    "CIRCULATINGSUPPLY": data["circulatingSupply"],
+                    "TOTALSUPPLY": data.setdefault("totalSupply", None),
+                    "MAXSUPPLY": data.setdefault("maxSupply", None),
+                    "VOLUME": data["values"]["USD"]["volume24h"],
+                    "PERCENTCHANGESIXMIN": data["values"]["USD"]["percentChange6m"],
+                    "PERCENTCHANGEWEEK": data["values"]["USD"]["percentChange7d"],
+                    "PERCENTCHANGEDAY": data["values"]["USD"]["percentChange24h"],
+                    "PERCENTCHANGEMONTH": data["values"]["USD"]["percentChange30d"],
+                    "DAYHIGH": data["values"]["USD"]["high24h"],
+                    "DAYLOW": data["values"]["USD"]["low24h"],
+                    "LASTUPDATED": data["lastUpdated"],
+                    "FILEDATE": self.file_date
+                })
         return self.data_list

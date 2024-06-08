@@ -4,9 +4,7 @@ import os
 from dotenv import load_dotenv
 
 from src.scrapping.scrap_cryptoranking import CryptoRanking
-from src.etl.extract_coinranking import ExtractCoinRanking
 from src.etl.load import Load
-from src.table.CoinRanking import BaseCoinRanking
 
 
 if __name__ == '__main__':
@@ -14,7 +12,10 @@ if __name__ == '__main__':
     ARCHIVE_PATH = BASE_PATH / 'Data' / 'Archive'
     ETL_PATH = BASE_PATH / 'Data' / 'FilesForProcessing'
     load_dotenv(BASE_PATH / ".env")
-    SERVER_NAME = os.getenv("DATABASE_SERVER")
+    SNOWFLAKE_USERNAME = os.getenv("SNOWFLAKE_USERNAME")
+    SNOWFLAKE_PASSWORD = os.getenv("SNOWFLAKE_PASSWORD")
+    SNOWFLAKE_IDENTIFIER = os.getenv("SNOWFLAKE_IDENTIFIER")
+    INTERNAL_STAGE = os.getenv("INTERNAL_STAGE")
     if not ETL_PATH.is_dir() or not ARCHIVE_PATH.is_dir():
         ETL_PATH.mkdir(exist_ok=True)
         ARCHIVE_PATH.mkdir(exist_ok=True)
@@ -29,12 +30,13 @@ if __name__ == '__main__':
     coinranking_obj.req_crypto_ranking("currencies") \
         .save_to_json(ETL_PATH)
 
-    data_list = ExtractCoinRanking(ETL_PATH) \
-        .format("json") \
-        .read_file("cryptoranking_*") \
-        .get_dictonary()
-
-    Load(data_list, SERVER_NAME) \
+    # put file for snowflake internal stage
+    Load(SNOWFLAKE_USERNAME,
+         SNOWFLAKE_PASSWORD,
+         SNOWFLAKE_IDENTIFIER,
+         ETL_PATH,
+         ARCHIVE_PATH,
+         INTERNAL_STAGE) \
         .connect_engine() \
-        .insert(BaseCoinRanking) \
+        .put_file() \
         .close()

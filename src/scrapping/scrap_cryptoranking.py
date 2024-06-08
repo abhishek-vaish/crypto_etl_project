@@ -18,7 +18,6 @@ class CryptoRanking:
             "optionalFields": "images"
         }
         uri = parse.urljoin(self._uri, endpoints)
-        print(uri)
         res = requests.get(uri, params)
         self._response = res.text
         return self
