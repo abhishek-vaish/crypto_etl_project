@@ -8,6 +8,8 @@ def convert_list_to_dict(data_lst, schema):
 
 
 def archive_file(source_location, target_location):
+    filename = source_location.split("/")[-1]
+    target_location = target_location / filename
     if target_location.exists():
         path = target_location.stem
         extension = target_location.suffix

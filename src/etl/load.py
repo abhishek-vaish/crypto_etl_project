@@ -1,32 +1,41 @@
 from sqlalchemy.engine import create_engine
 from sqlalchemy import text
+from urllib import parse
+
+from src.utilities.utility import archive_file
 
 
 class Load:
-    def __init__(self, data_dict: list, server_name):
-        self.df = data_dict
-        self.db_server = server_name
+    def __init__(self, snowflake_username,
+                 snowflake_password,
+                 snowflake_identifier,
+                 etl_path,
+                 archive_path,
+                 internal_stage):
+        self.username = snowflake_username
+        self.password = snowflake_password
+        self.identifier = snowflake_identifier
+        self.etl_path = etl_path
+        self.archive_path = archive_path
+        self.internal_stage = internal_stage
         self.cursor = None
-        self.key = 0
 
     def connect_engine(self):
-        engine = create_engine(url=self.db_server, echo=True)
+        snowflake_uri = f"snowflake://{self.username}:{self.password}@{parse.quote(self.identifier)}/WH_CRYPTO"
+        engine = create_engine(url=snowflake_uri, echo=True)
         try:
             self.cursor = engine.connect()
             return self
         except ConnectionError:
             raise ConnectionError("Unable to connect with database")
 
-    def get_key(self, tablename, schema):
-        query = f"select max(id) from {schema}.{tablename}"
-        key = self.cursor.execute(text(query)).fetchone()[0]
-        self.key = key if key is not None else 0
-        return self
-
-    def insert(self, table_name):
-        for row in self.df:
-            self.cursor.execute(table_name.__table__.insert().values(row))
-            self.cursor.commit()
+    def put_file(self):
+        for file_path in self.etl_path.glob("cryptoranking_*.json"):
+            file_path = str(file_path).replace("\\", "/")
+            query = text(f"PUT file://{file_path} {self.internal_stage}")
+            print(query)
+            self.cursor.execute(query)
+            archive_file(file_path, self.archive_path)
         return self
 
     def close(self):

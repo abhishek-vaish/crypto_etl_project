@@ -12,6 +12,7 @@ sqlalchemy = "*"
 python-dotenv = "*"
 pyodbc = "*"
 firebase-admin = "*"
+snowflake-sqlalchemy = "*"
 
 [dev-packages]
 
