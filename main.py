@@ -23,7 +23,6 @@ if __name__ == '__main__':
     API_KEY = os.getenv("API_KEY")
     COIN_RANKING_URI = os.getenv("CRYPTO_RANKING_URI")
     COIN_RANKING_LIMIT = os.getenv("API_LIMIT")
-    COIN_RANKING_VERSION = os.getenv("CRYPTO_RANKING_VERSION")
     coinranking_obj = CryptoRanking(API_KEY,
                                     COIN_RANKING_URI,
                                     COIN_RANKING_LIMIT)

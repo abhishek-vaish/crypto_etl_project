@@ -27,8 +27,11 @@ class CryptoRanking:
         current_date = datetime.strftime(datetime.now(), '%Y%m%d')
         filename = f"cryptoranking_{current_date}.json"
         file_path = target_path / filename
-        with open(file_path, 'w', encoding="utf-8") as file:
-            file.write(self._response)
+        if not file_path.exists():
+            with open(file_path, 'w', encoding="utf-8") as file:
+                file.write(self._response)
+        else:
+            raise FileExistsError(f"{filename} already exists.")
         return self
 
 
