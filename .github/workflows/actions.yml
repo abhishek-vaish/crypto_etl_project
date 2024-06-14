@@ -1,8 +1,7 @@
 name: run coinranking api
 
 on:
-  schedule:
-    - cron: '00 1 * * *' # Every day at 12:00
+  workflow_dispatch:
 
 jobs:
   build:
