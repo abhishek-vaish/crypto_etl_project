@@ -1,0 +1,48 @@
+name: run coinranking api
+
+on:
+  schedule:
+    - cron: '00 12 * * *' # Every day at 12:00
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: checkout repo content
+        uses: actions/checkout@v2 # checkout the repository content to github runner
+
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10' # install the python version needed
+
+      - name: install python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install pipenv
+          pipenv sync
+
+      - name: execute py script # run main.py
+        env:
+          - API_KEY: ${{ secrets.API_KEY }}
+          - CRYPTO_RANKING_URI: ${{ secrets.CRYPTO_RANKING_URI }}
+          - API_LIMIT: ${{ secrets.API_LIMIT }}
+          - SNOWFLAKE_USERNAME: ${{ secrets.SNOWFLAKE_USERNAME }}
+          - SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          - SNOWFLAKE_IDENTIFIER: ${{ secrets.SNOWFLAKE_IDENTIFIER }}
+          - INTERNAL_STAGE: ${{ secrets.INTERNAL_STAGE }}
+        run: pipenv run python main.py
+
+      - name: commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff-index --quiet HEAD || (git commit -a -m "add files" --allow-empty)
+
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
