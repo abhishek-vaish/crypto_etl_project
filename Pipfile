@@ -4,14 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-beautifulsoup4 = "*"
 pandas = "*"
 requests = "*"
-lxml = "*"
 sqlalchemy = "*"
 python-dotenv = "*"
 pyodbc = "*"
-firebase-admin = "*"
 snowflake-sqlalchemy = "*"
 
 [dev-packages]
