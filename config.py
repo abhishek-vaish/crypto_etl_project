@@ -12,8 +12,8 @@ load_dotenv(BASE_PATH / ".env")
 ARCHIVE_PATH = BASE_PATH / 'Data' / 'Archive'
 ETL_PATH = BASE_PATH / 'Data' / 'FilesForProcessing'
 if not ETL_PATH.is_dir() or not ARCHIVE_PATH.is_dir():
-    ETL_PATH.mkdir(exist_ok=True)
-    ARCHIVE_PATH.mkdir(exist_ok=True)
+    ETL_PATH.mkdir()
+    ARCHIVE_PATH.mkdir()
 
 # snowflake environment variables
 SNOWFLAKE_USERNAME = os.getenv("SNOWFLAKE_USERNAME")
