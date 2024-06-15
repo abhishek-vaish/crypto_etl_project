@@ -25,7 +25,9 @@ jobs:
 
       - name: Set PIPENV_PYTHON
         run: echo "PIPENV_PYTHON=$(python -c 'import sys; print(sys.executable)')" >> $GITHUB_ENV
-          pipenv install
+
+      - name: Install Dependencies
+        run:  pipenv install
 
       - name: execute py script # run main.py
         env:
