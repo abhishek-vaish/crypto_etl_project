@@ -29,6 +29,12 @@ jobs:
       - name: Install Dependencies
         run:  pipenv install
 
+      - name: Create ETL Processing Path
+        run: mkdir home/runner/work/crypto_etl_project/crypto_etl_project/Data/FilesForProcessing
+
+      - name: Create ETL Archive Path
+        run: mkdir home/runner/work/crypto_etl_project/crypto_etl_project/Data/Archive
+
       - name: execute py script # run main.py
         env:
           API_KEY: ${{ secrets.API_KEY }}
