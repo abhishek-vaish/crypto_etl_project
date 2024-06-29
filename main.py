@@ -6,13 +6,13 @@ from src.utilities.logger import logger
 if __name__ == '__main__':
     # scrap data from coin ranking API
     logger.info("Fetching Coin Ranking Data from API")
-    coinranking_obj = CryptoRanking(API_KEY,
-                                    COIN_RANKING_URI,
-                                    COIN_RANKING_LIMIT)
+    coinranking_obj = CryptoRanking(config.API_KEY,
+                                    config.COIN_RANKING_URI,
+                                    config.COIN_RANKING_LIMIT)
     logger.info("Data fetch successfully from the API")
-    logger.info(f"Saving data into JSON file at {ETL_PATH}")
+    logger.info(f"Saving data into JSON file at {config.ETL_PATH}")
     coinranking_obj.req_crypto_ranking("currencies") \
-        .save_to_json(ETL_PATH)
+        .save_to_json(config.ETL_PATH)
     logger.info("File save successfully at expected ETL path")
 
     # put file for snowflake internal stage
