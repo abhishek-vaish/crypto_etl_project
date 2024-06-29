@@ -1,5 +1,6 @@
 from config import ARCHIVE_PATH, ETL_PATH, SNOWFLAKE_IDENTIFIER, SNOWFLAKE_USERNAME, \
-    SNOWFLAKE_PASSWORD, API_KEY, COIN_RANKING_URI, COIN_RANKING_LIMIT, INTERNAL_STAGE
+    SNOWFLAKE_PASSWORD, API_KEY, COIN_RANKING_URI, COIN_RANKING_LIMIT, INTERNAL_STAGE, \
+    INTERNAL_ARCHIVE_STAGE, INTERNAL_STAGE_FILE_PATTERN
 from src.etl.load import Load
 from src.scrapping.scrap_cryptoranking import CryptoRanking
 from src.utilities.logger import logger
@@ -23,7 +24,9 @@ if __name__ == '__main__':
          SNOWFLAKE_IDENTIFIER,
          ETL_PATH,
          ARCHIVE_PATH,
-         INTERNAL_STAGE) \
+         INTERNAL_STAGE,
+         INTERNAL_ARCHIVE_STAGE,
+         INTERNAL_STAGE_FILE_PATTERN) \
         .connect_engine() \
         .put_file() \
         .close()
