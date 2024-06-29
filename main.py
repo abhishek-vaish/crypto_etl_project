@@ -1,6 +1,4 @@
-from config import ARCHIVE_PATH, ETL_PATH, SNOWFLAKE_IDENTIFIER, SNOWFLAKE_USERNAME, \
-    SNOWFLAKE_PASSWORD, API_KEY, COIN_RANKING_URI, COIN_RANKING_LIMIT, INTERNAL_STAGE, \
-    INTERNAL_ARCHIVE_STAGE, INTERNAL_STAGE_FILE_PATTERN
+import config
 from src.etl.load import Load
 from src.scrapping.scrap_cryptoranking import CryptoRanking
 from src.utilities.logger import logger
@@ -19,14 +17,14 @@ if __name__ == '__main__':
 
     # put file for snowflake internal stage
     logger.info("Uploading file to Snowflake Internal Stage")
-    Load(SNOWFLAKE_USERNAME,
-         SNOWFLAKE_PASSWORD,
-         SNOWFLAKE_IDENTIFIER,
-         ETL_PATH,
-         ARCHIVE_PATH,
-         INTERNAL_STAGE,
-         INTERNAL_ARCHIVE_STAGE,
-         INTERNAL_STAGE_FILE_PATTERN) \
+    Load(config.SNOWFLAKE_USERNAME,
+         config.SNOWFLAKE_PASSWORD,
+         config.SNOWFLAKE_IDENTIFIER,
+         config.ETL_PATH,
+         config.ARCHIVE_PATH,
+         config.INTERNAL_STAGE,
+         config.INTERNAL_ARCHIVE_STAGE,
+         config.INTERNAL_STAGE_FILE_PATTERN) \
         .connect_engine() \
         .put_file() \
         .close()
